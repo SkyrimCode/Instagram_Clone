@@ -9,7 +9,7 @@ const posts=[
         caption: 'This is my first post',
     },
     {
-        id: '123',
+        id: '124',
         username: 'skyrim',
         userImg: 'https://drive.google.com/uc?export=view&id=1Sw0CzeXJh3LlyhBgyzOug5J8OYmFAc4A',
         img: 'https://drive.google.com/uc?export=view&id=1Sw0CzeXJh3LlyhBgyzOug5J8OYmFAc4A',

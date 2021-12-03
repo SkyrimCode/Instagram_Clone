@@ -13,6 +13,13 @@ export default NextAuth({
   ],
   pages: {
       signIn: "/auth/signin",
+  },
+  callbacks: {
+    async session({session,token,user}){
+        session.user.username = session.user.name.split(" ").join("").toLocaleLowerCase(); //Changing Rajdeep Saha to rajdeepsaha
+        session.user.uid= token.sub //Google's user id
+        return session;
+    }
   }
 
 });
