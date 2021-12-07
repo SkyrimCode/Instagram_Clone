@@ -12,6 +12,11 @@ function Suggestions() {
         setSuggestions(suggestions);
     }, [])
 
+    const defaultImg = (e) => {
+        e.target.src= 'https://drive.google.com/uc?export=view&id=1Kw6V5ieFm5TcUkZFpcMG-n_D6uxEJzkn'
+        
+    }
+
     return (
         <div className="mt-4 ml-10">
             <div className="flex justify-between text-sm mb-5">
@@ -21,7 +26,7 @@ function Suggestions() {
             {
                 suggestions.map(profile=>(
                     <div key={profile.id} className="flex items-center justify-between mt-3">
-                        <img src={profile.avatar} className="w-10 h-10 rounded-full border p-[2px]"/>
+                        <img  onError={defaultImg} src={profile.avatar} className="w-10 h-10 rounded-full border p-[2px]"/>
                         <div className="flex-1 ml-4">
                             <h2 className="font-semibold text-sm">{profile.username}</h2>
                             <h3 className="text-xs text-gray-400">Works at {profile.company.name}</h3>

@@ -4,7 +4,8 @@ import {
     DotsHorizontalIcon,
     EmojiHappyIcon,
     HeartIcon,
-    PaperAirplaneIcon
+    PaperAirplaneIcon,
+    TrashIcon
 } from "@heroicons/react/outline"
 import { useSession} from "next-auth/react"
 import {HeartIcon as HeartIconFilled } from "@heroicons/react/solid"
@@ -14,7 +15,8 @@ import { db } from "../firebase";
 import React from "react"
 import Moment from "react-moment"
 
-function Post({id,username,userImg,img,caption}) {
+
+function Post({id,uid,username,userImg,img,caption}) {
     const {data:session} = useSession();
     const [comments,setComments] = useState([]);
     const [comment,setComment] = useState("");
@@ -59,6 +61,9 @@ function Post({id,username,userImg,img,caption}) {
         setHasLiked(likes.findIndex(like=> (like.id === session?.user?.uid))!==-1)
     },[likes])
 
+    const deletePost = async() =>{
+        await deleteDoc(doc(db,'posts',id))
+    }
 
     return (
         <div className="bg-white my-7 border rounded-sm">
@@ -67,7 +72,10 @@ function Post({id,username,userImg,img,caption}) {
             <div className="flex items-center p-5">
                 <img src={userImg} className="rounded-full h-12 w-12 object-contain border p-1 mr-3"/>
                 <p className="flex-1 font-bold">{username}</p>
-                <DotsHorizontalIcon className="h-5"/>
+
+                {(session?.user?.uid===uid || session?.user?.uid===process.env.UID)? (
+                <TrashIcon onClick={deletePost} className="h-5 hover:text-red-700 hover:scale-125"/>):
+                (<></>)}
 
                 
             </div>
