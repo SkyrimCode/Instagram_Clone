@@ -75,7 +75,6 @@ function Post({id,uid,username,userImg,img,caption}) {
             <div className="flex items-center p-5">
                 <img onError={defaultImg} src={userImg} className="rounded-full h-12 w-12 object-contain border p-1 mr-3"/>
                 <p className="flex-1 font-bold">{username}</p>
-                {console.log("Check ",session?.user?.uid,process.env.UID,session?.user?.uid===process.env.UID)}
                 {(session?.user?.uid===uid || session?.user?.uid===process.env.UID)? (
                 <TrashIcon onClick={deletePost} className="h-5 hover:text-red-700 hover:scale-125"/>):
                 (<></>)}
