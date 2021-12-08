@@ -4,6 +4,6 @@ module.exports = {
     },
     env: {
         UID: process.env.UID,
-        SECRET: 'T4tzN7XGIlFFboC5UFD/pdEntnHGbX+Rh/My3NjaQoU='
+        SECRET: process.env.SECRET
       }
 }
