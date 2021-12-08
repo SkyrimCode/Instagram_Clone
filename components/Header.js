@@ -12,6 +12,10 @@ function Header() {
     const {data: session, status} = useSession();
     const [open,setOpen] = useRecoilState(modalState);
     const router = useRouter();
+    const defaultImg = (e) => {
+      e.target.src= 'https://drive.google.com/uc?export=view&id=1Kw6V5ieFm5TcUkZFpcMG-n_D6uxEJzkn'
+  }
+
     return (
         <div className="shadow-sm border-b bg-white sticky top-0 z-50">
         <div className="flex justify-between max-w-6xl mx-5 lg:mx-auto">
@@ -56,7 +60,7 @@ function Header() {
               <UserGroupIcon className="navBtn"/>
               <HeartIcon className="navBtn"/>
               <img onClick={signOut} 
-              alt="profile picture"
+              onError={defaultImg}
               src={session?.user?.image} 
               className="h-10 w-10 rounded-full cursor-pointer"/>
               </>

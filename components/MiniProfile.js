@@ -2,11 +2,15 @@ import {signOut, useSession} from "next-auth/react"
 
 function MiniProfile() {
     const {data:session} = useSession();
+    const defaultImg = (e) => {
+        e.target.src= 'https://drive.google.com/uc?export=view&id=1Kw6V5ieFm5TcUkZFpcMG-n_D6uxEJzkn'
+    }
     
     return (
         <div className="flex items-center justify-between mt-14 ml-10">
             <img 
             className="rounded-full border p-[2px] w-16 h-16"
+            onError={defaultImg}
             src={session?.user?.image}/>
 
             <div className="flex-1 mx-4">

@@ -64,13 +64,16 @@ function Post({id,uid,username,userImg,img,caption}) {
     const deletePost = async() =>{
         await deleteDoc(doc(db,'posts',id))
     }
-
+    const defaultImg = (e) => {
+        e.target.src= 'https://drive.google.com/uc?export=view&id=1Kw6V5ieFm5TcUkZFpcMG-n_D6uxEJzkn'
+    }
+    
     return (
         <div className="bg-white my-7 border rounded-sm">
             {/* Header */}
 
             <div className="flex items-center p-5">
-                <img src={userImg} className="rounded-full h-12 w-12 object-contain border p-1 mr-3"/>
+                <img onError={defaultImg} src={userImg} className="rounded-full h-12 w-12 object-contain border p-1 mr-3"/>
                 <p className="flex-1 font-bold">{username}</p>
 
                 {(session?.user?.uid===uid || session?.user?.uid===process.env.UID)? (
