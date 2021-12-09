@@ -12,4 +12,8 @@
         @apply h-7 hover:scale-125 cursor-pointer 
         transition-all duration-150 ease-out;
     }
+
+    .slideleft{
+        @apply transition-all duration-1000 ease-in-out
+    }
 }

@@ -33,12 +33,14 @@ function Post({id,uid,username,userImg,img,caption}) {
         const commentToSend = comment;
         setComment('');
 
-        await addDoc(collection(db,'posts',id,'comments'),{
+        const commentRef = await addDoc(collection(db,'posts',id,'comments'),{
             comment: commentToSend,
             username: session?.user?.username,
             userImage: session?.user?.image,
-            timestamp: serverTimestamp()
+            timestamp: serverTimestamp(),
+            uid: session?.user?.uid
         })
+        console.log('Comment id is = ',commentRef.id)
     }
 
     useEffect(() => onSnapshot(collection(db,'posts',id,'likes'),snapshot=>
@@ -63,6 +65,11 @@ function Post({id,uid,username,userImg,img,caption}) {
 
     const deletePost = async() =>{
         await deleteDoc(doc(db,'posts',id))
+    }
+
+    const deleteComment = async(cid) =>{
+        console.log('Deleted ',cid)
+        await deleteDoc(doc(db,'posts',id,'comments',cid))
     }
     const defaultImg = (e) => {
         e.target.src= 'https://drive.google.com/uc?export=view&id=1Kw6V5ieFm5TcUkZFpcMG-n_D6uxEJzkn'
@@ -115,12 +122,24 @@ function Post({id,uid,username,userImg,img,caption}) {
                 {comments.length>0 && (
                     <div className="ml-10 h-20 overflow-y-scroll scrollbar-thumb-black scrollbar-thin">
                         {comments.map(comment => (
-                            <div key={comment.id} className="flex items-center space-x-2 mb-3">
+                            <div key={comment.id} className="group ">
+                                <div className='group-hover:bg-gray-50 flex items-center space-x-2 p-2'>
                                 <img className="h-7 rounded-full" src={comment.data().userImage}/>
                                 <p className="text-sm flex-1"><span className="font-bold">{comment.data().username}</span>{" "}{comment.data().comment}</p>
+                                
+                                {(session?.user?.uid===comment.data().uid || session?.user?.uid===process.env.UID || uid===session?.user?.uid)? (
+                                <>
+                                <Moment fromNow className="pr-5 text-xs group-hover:pr-2 group-hover:slideleft">
+                                    {comment.data().timestamp?.toDate()}
+                                </Moment>
+                                <TrashIcon onClick={()=>deleteComment(comment.id)} className="pr-5 h-5 hover:text-red-700 hidden group-hover:block group-hover:slideleft"/></>):(
+                                <>
                                 <Moment fromNow className="pr-5 text-xs">
                                     {comment.data().timestamp?.toDate()}
                                 </Moment>
+                                </>
+                                )}
+                                </div>
                             </div>
                         ))}
                     </div>

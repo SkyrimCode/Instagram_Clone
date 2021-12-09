@@ -33,7 +33,7 @@ function Modal() {
             uid: session?.user?.uid
         })
 
-        console.log("New doc added =",docRef.id);
+        // console.log("New doc added =",docRef.id);
 
         const imageRef = ref(storage, `posts/${docRef.id}/image`);
 

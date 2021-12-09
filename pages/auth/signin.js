@@ -8,7 +8,7 @@ function signin({providers}) {
 
 
         <div className="flex flex-col justify-center items-center min-h-screen py-2 -mt-20 px-14 text-center">
-          <img src="https://drive.google.com/uc?export=view&id=19agDVj5miAdZlO0FmvjPqZNS7WpsKM3o" className="w-80"/>
+          <img src="https://drive.google.com/uc?export=view&id=1CW1Pl1sqJA45aUKljICCPUXJhjwHNX-X" className="w-80"/>
           
         <div className="mt-20">
          {Object.values(providers).map((provider) => (

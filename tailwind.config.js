@@ -6,7 +6,9 @@ module.exports = {
     extend: {},
   },
   variants: {
-    extend: {},
+    extend: {
+      display: ["group-hover"]
+    },
   },
   plugins: [require('@tailwindcss/forms'),require('tailwind-scrollbar'),require('tailwind-scrollbar-hide')],
 }

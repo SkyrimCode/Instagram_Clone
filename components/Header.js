@@ -22,7 +22,7 @@ function Header() {
             {/* {Left} */}
             <div onClick={()=>router.push('/')} className="relative hidden lg:inline-grid w-24 cursor-pointer">
                 <Image 
-                  src="https://drive.google.com/uc?export=view&id=19agDVj5miAdZlO0FmvjPqZNS7WpsKM3o"
+                  src="https://drive.google.com/uc?export=view&id=1CW1Pl1sqJA45aUKljICCPUXJhjwHNX-X"
                   layout="fill"
                   objectFit="contain"
                 />
