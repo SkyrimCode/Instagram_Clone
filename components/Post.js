@@ -16,7 +16,7 @@ import React from "react"
 import Moment from "react-moment"
 
 
-function Post({id,uid,username,userImg,img,caption}) {
+function Post({id,uid,username,userImg,img,caption,timestamp}) {
     const {data:session} = useSession();
     const [comments,setComments] = useState([]);
     const [comment,setComment] = useState("");
@@ -74,6 +74,18 @@ function Post({id,uid,username,userImg,img,caption}) {
     const defaultImg = (e) => {
         e.target.src= 'https://drive.google.com/uc?export=view&id=1Kw6V5ieFm5TcUkZFpcMG-n_D6uxEJzkn'
     }
+
+    
+    const [isDesktop, setDesktop] = useState(window.innerWidth > 767);
+    
+    const updateMedia = () => {
+        setDesktop(window.innerWidth > 767);
+    };
+    
+    useEffect(() => {
+        window.addEventListener("resize", updateMedia);
+        return () => window.removeEventListener("resize", updateMedia);
+    });
     
     return (
         <div className="bg-white my-7 border rounded-sm">
@@ -110,38 +122,74 @@ function Post({id,uid,username,userImg,img,caption}) {
             )}
            
             {/* caption */}
-            <p className="p-5 truncate">
+            <p className="pl-5 truncate">
+            <p className="pt-3 truncate">
                 {likes.length>0 && (
-                    <p className='font-bold mb-1'>{likes.length} likes</p>
+                    <p className='font-semibold mb-1'>{likes.length} likes</p>
                 )}
-
+            </p>
+            <p className="pt-3 truncate">
                 <span className="font-bold mr-1">{username}</span>
                 {caption}
+                </p>
+                <p className="pb-3">
+                <Moment fromNow className="uppercase text-gray-500" style={{fontSize:'0.7rem',fontWeight:'400'}}>
+                    {timestamp.toDate()}
+                </Moment>
+                </p>
             </p>
             {/* Comments */}
                 {comments.length>0 && (
                     <div className="ml-10 h-20 overflow-y-scroll scrollbar-thumb-black scrollbar-thin">
-                        {comments.map(comment => (
-                            <div key={comment.id} className="group ">
-                                <div className='group-hover:bg-gray-50 flex items-center space-x-2 p-2'>
+                        {comments.map(comment => {
+                            return <div key={comment.id} className="group ">
+                                {!isDesktop?(
+                                <div className='group-hover:bg-gray-50 space-x-2 p-2 break-all'>
+                                    <div className="flex">
+                                    <img className="h-7 rounded-full" src={comment.data().userImage}/>
+                                    <p className="ml-2 text-sm flex-1"><span className="font-bold align-middle">{comment.data().username}</span></p>
+                                    
+                                    {(session?.user?.uid===comment.data().uid || session?.user?.uid===process.env.UID || uid===session?.user?.uid)? (
+                                    <>
+                                    <Moment fromNow className="pr-5 flex items-center font-thin uppercase group-hover:pr-2 group-hover:slideleft align-middle" style={{fontSize:'0.6rem'}}>
+                                        {comment.data().timestamp?.toDate()}
+                                    </Moment>
+                                    <div className="flex items-center"><TrashIcon onClick={()=>deleteComment(comment.id)} className="pr-5 h-5 hover:text-red-700 hidden group-hover:block group-hover:slideleft"/></div></>):(
+                                            
+                                    <>
+                                    <Moment fromNow className="pr-5 text-xs uppercase">
+                                        
+                                        {comment.data().timestamp?.toDate().toString().toLocaleUpperCase()}
+                                    </Moment>
+                                    </>
+                                    )}
+                                    </div>
+                                    <p className="pl-7 pr-5">{comment.data().comment}</p>
+
+                                </div>):(
+
+                                <div className='group-hover:bg-gray-50 flex space-x-2 p-2 break-all'>
                                 <img className="h-7 rounded-full" src={comment.data().userImage}/>
                                 <p className="text-sm flex-1"><span className="font-bold">{comment.data().username}</span>{" "}{comment.data().comment}</p>
                                 
                                 {(session?.user?.uid===comment.data().uid || session?.user?.uid===process.env.UID || uid===session?.user?.uid)? (
                                 <>
-                                <Moment fromNow className="pr-5 text-xs group-hover:pr-2 group-hover:slideleft">
+                                <Moment fromNow className="pr-5 flex items-center font-thin uppercase group-hover:pr-2 group-hover:slideleft align-middle" style={{fontSize:'0.6rem'}}>
                                     {comment.data().timestamp?.toDate()}
                                 </Moment>
-                                <TrashIcon onClick={()=>deleteComment(comment.id)} className="pr-5 h-5 hover:text-red-700 hidden group-hover:block group-hover:slideleft"/></>):(
+                                <div className="flex items-center"><TrashIcon onClick={()=>deleteComment(comment.id)} className="pr-5 h-5 hover:text-red-700 hidden group-hover:block group-hover:slideleft"/></div></>):(
+                                    
                                 <>
-                                <Moment fromNow className="pr-5 text-xs">
-                                    {comment.data().timestamp?.toDate()}
+                                
+                                <Moment fromNow className="pr-5 text-xs uppercase">
+                                    
+                                    {comment.data().timestamp?.toDate().toString().toLocaleUpperCase()}
                                 </Moment>
                                 </>
                                 )}
-                                </div>
+                                </div>)}
                             </div>
-                        ))}
+                        })}
                     </div>
                 )}
 
