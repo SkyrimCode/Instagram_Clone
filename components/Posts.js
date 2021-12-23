@@ -15,8 +15,8 @@ function Posts() {
     return (
         <div>
             {/* Posts */}
-            {posts.map(post=>(
-                <Post key={post.id} 
+            {posts.map(post=>{
+                return <Post key={post.id} 
                 id={post.id} 
                 uid={post.data().uid}
                 username={post.data().username}
@@ -25,7 +25,7 @@ function Posts() {
                 caption={post.data().caption}
                 timestamp={post.data().timestamp}
                 />
-            ))}
+            })}
         </div>
     )
 }
